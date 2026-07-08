@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vistana Costa Blanca · Presentación — TropiCasa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:#e7e5df;color:#211F1D;height:100vh;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+
+  /* ---------- Top bar (fina, blanca) ---------- */
+  header.topbar{
+    flex:none;height:58px;background:#fff;border-bottom:1px solid #e4e0d8;
+    display:flex;align-items:center;justify-content:space-between;padding:0 26px;z-index:50;
+  }
+  header.topbar .logo img{height:30px;display:block;}
+  header.topbar .ttl{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9a9b9e;font-weight:700;}
+
+  /* ---------- Layout: sidebar + main ---------- */
+  .shell{flex:1;display:flex;min-height:0;}
+
+  aside.side{
+    flex:none;width:248px;padding:28px 18px;overflow-y:auto;
+    border-right:1px solid #ded9d0;
+  }
+  .side .grp{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#a7a298;font-weight:700;padding:0 14px;margin:6px 0 12px;}
+  .side .navitem{
+    display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
+    border:none;background:transparent;font-family:inherit;color:#5e5f62;font-size:15px;font-weight:700;
+    letter-spacing:-.01em;padding:13px 16px;border-radius:12px;transition:all .15s ease;margin-bottom:4px;
+  }
+  .side .navitem .ic{width:20px;height:20px;flex:none;display:flex;align-items:center;justify-content:center;color:#a29c91;transition:color .15s ease;}
+  .side .navitem:hover{background:#efebe3;color:#211F1D;}
+  .side .navitem:hover .ic{color:#EF6E21;}
+  .side .navitem.active{background:#EF6E21;color:#fff;box-shadow:0 8px 20px rgba(239,110,33,.26);}
+  .side .navitem.active .ic{color:#fff;}
+  .side .subnav{margin:2px 0 10px 16px;padding-left:14px;border-left:2px solid #e2ddd3;display:none;}
+  .side .subnav.show{display:block;}
+  .side .subitem{
+    display:block;width:100%;text-align:left;cursor:pointer;border:none;background:transparent;font-family:inherit;
+    color:#86827a;font-size:13px;font-weight:600;letter-spacing:-.01em;padding:9px 14px;border-radius:9px;transition:all .15s ease;
+  }
+  .side .subitem:hover{color:#211F1D;background:#efebe3;}
+  .side .subitem.active{color:#EF6E21;background:#f6efe7;}
+
+  /* ---------- Main ---------- */
+  main.stage{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;position:relative;padding:18px;}
+
+  /* Valla view */
+  #vallaView{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;gap:30px;overflow-y:auto;padding:38px 28px 48px;}
+  #vallaView .vhead{text-align:center;max-width:980px;}
+  #vallaView .vhead h2{font-size:26px;font-weight:800;letter-spacing:-.02em;color:#211F1D;}
+  #vallaView .vhead p{font-size:14px;color:#7c7d80;font-weight:500;margin-top:6px;letter-spacing:-.005em;}
+  #vallaView .vcard{width:100%;max-width:980px;}
+  #vallaView .vcard .vlabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#a7a298;font-weight:700;margin-bottom:10px;}
+  #vallaView .vcard img{width:100%;display:block;border-radius:12px;box-shadow:0 16px 44px rgba(20,24,28,.18);background:#fff;}
+
+  /* Phone view */
+  #phoneView{position:absolute;inset:0;display:none;align-items:center;justify-content:center;}
+  #phoneScale{transform-origin:center center;}
+  .phone{
+    position:relative;width:412px;height:858px;background:#0c0d0f;border-radius:56px;padding:13px;
+    box-shadow:0 30px 70px rgba(20,24,28,.34),0 6px 20px rgba(20,24,28,.2);
+  }
+  .phone .screen{position:relative;width:386px;height:832px;background:#fff;border-radius:44px;overflow:hidden;}
+  .phone .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:108px;height:31px;background:#0c0d0f;border-radius:18px;z-index:40;}
+
+  /* iOS status bar */
+  .statusbar{height:46px;display:flex;align-items:center;justify-content:space-between;padding:14px 26px 0;font-size:14px;font-weight:700;color:#0c0d0f;}
+  .statusbar .right{display:flex;align-items:center;gap:6px;}
+
+  /* IG header */
+  .ighead{height:56px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #efefef;}
+  .igavatar{width:38px;height:38px;border-radius:50%;flex:none;padding:2px;background:linear-gradient(45deg,#f9ce34,#ee2a7b,#6228d7);}
+  .igavatar > div{width:100%;height:100%;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .igavatar img{width:100%;height:100%;object-fit:cover;object-position:center 26%;}
+  .ighead .who{flex:1;line-height:1.15;}
+  .ighead .who b{font-size:14px;font-weight:700;color:#111;display:block;}
+  .ighead .who span{font-size:11.5px;color:#777;font-weight:500;}
+  .ighead .more{font-size:22px;color:#111;font-weight:700;padding:0 6px;letter-spacing:.04em;}
+
+  /* IG media */
+  .igmedia{position:relative;width:386px;height:482px;overflow:hidden;background:#000;cursor:grab;user-select:none;}
+  .igmedia.dragging{cursor:grabbing;}
+  .igtrack{display:flex;height:100%;will-change:transform;}
+  .igcell{position:relative;width:386px;height:482px;flex:none;overflow:hidden;background:#1c1f24;}
+  .igcell .root{position:absolute;top:0;left:0;width:1080px;height:1350px;transform-origin:top left;pointer-events:none;}
+  .igcount{position:absolute;top:12px;right:12px;background:rgba(17,19,22,.66);color:#fff;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px;z-index:5;letter-spacing:.02em;}
+  .igmulti{position:absolute;top:13px;right:13px;z-index:5;color:#fff;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));}
+
+  /* IG actions */
+  .igactions{display:flex;align-items:center;gap:16px;padding:11px 14px 6px;}
+  .igactions .grow{flex:1;}
+  .igactions svg{display:block;}
+  .igdots{display:flex;gap:5px;justify-content:center;padding:4px 0 2px;}
+  .igdots .d{width:6px;height:6px;border-radius:50%;background:#cfd2d6;transition:all .15s ease;}
+  .igdots .d.on{background:#2d9bf0;}
+
+  .igmeta{padding:2px 16px 0;}
+  .igmeta .likes{font-size:14px;font-weight:700;color:#111;}
+  .igmeta .cap{font-size:14px;color:#1a1a1a;line-height:1.4;margin-top:4px;}
+  .igmeta .cap b{font-weight:700;}
+  .igmeta .cap .muted{color:#8a8a8a;}
+  .igmeta .cmts{font-size:14px;color:#8a8a8a;margin-top:6px;}
+  .igmeta .time{font-size:10.5px;color:#b0b0b0;letter-spacing:.04em;text-transform:uppercase;margin-top:7px;}
+
+  /* IG bottom tab bar */
+  .igtabs{position:absolute;left:0;right:0;bottom:0;height:52px;background:#fff;border-top:1px solid #efefef;display:flex;align-items:center;justify-content:space-around;padding:0 18px 6px;}
+  .igtabs svg{display:block;color:#111;}
+  .igtabs .av{width:24px;height:24px;border-radius:50%;border:1.6px solid #111;overflow:hidden;}
+  .igtabs .av img{width:100%;height:100%;object-fit:cover;object-position:center 26%;}
+
+  /* Stories */
+  .storyscreen{position:absolute;inset:0;background:#0c0d10;overflow:hidden;cursor:grab;user-select:none;}
+  .storyscreen.dragging{cursor:grabbing;}
+  .storytrack{display:flex;height:100%;will-change:transform;}
+  .storycell{position:relative;width:386px;height:832px;flex:none;display:flex;align-items:center;justify-content:center;background:#0c0d10;overflow:hidden;}
+  .storycell .sroot{position:absolute;left:0;top:50%;width:1080px;height:1920px;transform-origin:top left;pointer-events:none;}
+  .storybars{position:absolute;top:50px;left:10px;right:10px;display:flex;gap:5px;z-index:30;}
+  .storybars .seg{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.34);overflow:hidden;}
+  .storybars .seg i{display:block;height:100%;width:0;background:#fff;border-radius:3px;}
+  .storybars .seg.done i{width:100%;}
+  .storybars .seg.cur i{width:100%;}
+  .storyhd{position:absolute;top:64px;left:14px;right:14px;display:flex;align-items:center;gap:10px;z-index:30;}
+  .storyhd .av{width:34px;height:34px;border-radius:50%;flex:none;overflow:hidden;border:1.5px solid rgba(255,255,255,.85);background:#fff;}
+  .storyhd .av img{width:100%;height:100%;object-fit:cover;object-position:center 26%;}
+  .storyhd b{color:#fff;font-size:13.5px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.4);}
+  .storyhd span{color:rgba(255,255,255,.82);font-size:12.5px;font-weight:500;margin-left:4px;text-shadow:0 1px 4px rgba(0,0,0,.4);}
+  .storyhd .x{margin-left:auto;color:#fff;font-size:24px;font-weight:300;text-shadow:0 1px 4px rgba(0,0,0,.4);}
+  .storyfoot{position:absolute;bottom:18px;left:14px;right:14px;display:flex;align-items:center;gap:12px;z-index:30;}
+  .storyfoot .box{flex:1;height:46px;border:1.4px solid rgba(255,255,255,.6);border-radius:999px;display:flex;align-items:center;padding:0 20px;color:rgba(255,255,255,.85);font-size:13.5px;font-weight:500;}
+  .storyfoot svg{color:#fff;flex:none;}
+
+  .swipehint{position:absolute;bottom:-34px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.06em;color:#9a958b;font-weight:600;}
+
+  /* feed vertical de publicaciones (scroll estilo IG) */
+  .igfeed{position:absolute;top:46px;left:0;right:0;bottom:52px;overflow-y:auto;overflow-x:hidden;background:#fff;cursor:grab;}
+  .igfeed.dragging{cursor:grabbing;}
+  .igfeed .igpost{border-bottom:1px solid #efefef;}
+  .igfeed .igpost:last-child{border-bottom:none;padding-bottom:10px;}
+  .igfeed .igcell{cursor:default;}
+  .igfeed::-webkit-scrollbar{width:0;height:0;}
+
+  aside.side::-webkit-scrollbar,#vallaView::-webkit-scrollbar{width:8px;}
+  aside.side::-webkit-scrollbar-thumb,#vallaView::-webkit-scrollbar-thumb{background:#d2ccc1;border-radius:8px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo"><img src="images/logo_tropicasa.png" alt="TropiCasa"></div>
+  <div class="ttl">Vistana Costa Blanca · Presentación de campaña</div>
+</header>
+
+<div class="shell">
+  <aside class="side" id="side"></aside>
+  <main class="stage">
+    <div id="vallaView"></div>
+    <div id="phoneView">
+      <div id="phoneScale">
+        <div class="phone">
+          <div class="island"></div>
+          <div class="screen" id="screen"></div>
+        </div>
+        <div class="swipehint" id="swipehint">Arrastra con el mouse ← → para deslizar</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   DATOS
+   ============================================================ */
+const IMG='images/';
+const LOGO_CB=IMG+'logo_costablanca.png';
+const LOGO_CB_W=IMG+'logo_costablanca_white.png';
+const LOGO_TC=IMG+'logo_tropicasa.png';
+const LOGO_TC_V=IMG+'logo_tropicasa_vertical.png';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function img(s){return IMG+s.img;}
+function pos(s){return s.objPos||'center';}
+function coverImg(s){return '<img src="'+img(s)+'" alt="Costa Blanca" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:'+pos(s)+';">';}
+
+const CARRUSELES=[
+  { titulo:'Amenidades que enamoran', ig:{likes:'1,284', cap:'Piscinas, canchas y parque a pasos de tu puerta. 🌴 Vistana Costa Blanca, en el corazón de Boca Chica.', cmts:'42'},
+    slides:['images/slide/c_01.png','images/slide/c_02.png','images/slide/c_03.png','images/slide/c_04.png'] },
+  { titulo:'Conoce tu apartamento', ig:{likes:'968', cap:'¿2 o 3 habitaciones? Conoce los apartamentos de Vistana Costa Blanca. 📐 Agenda tu visita.', cmts:'19'},
+    slides:['images/slide/c_05.png','images/slide/c_06.png','images/slide/c_07.png','images/slide/c_08.png'] },
+  { titulo:'Por qué invertir ahora', ig:{likes:'1,512', cap:'Boca Chica está en su mejor momento. Solo quedan 24 de 144 unidades. ⏳ El momento es ahora.', cmts:'58'},
+    slides:['images/slide/c_09.png','images/slide/c_10.png','images/slide/c_11.png','images/slide/c_12.png'] }
+];
+
+/* ============================================================
+   POSTS (1080×1350) · imágenes reales de 02 Posts.dc.html
+   ============================================================ */
+const POSTS=[
+  { label:'Marca', img:'images/slide/p_01.png', ig:{likes:'1,042', cap:'Redescubre Boca Chica. Un destino legendario se transforma. 🌅 #VistanaCostaBlanca', cmts:'31'} },
+  { label:'2 Habitaciones', img:'images/slide/p_02.png', ig:{likes:'894', cap:'Tu próximo hogar tiene vista al mar. 2 hab · Desde US$166,016 🌊', cmts:'17'} },
+  { label:'3 Habitaciones', img:'images/slide/p_03.png', ig:{likes:'1,118', cap:'Espacio para toda la familia. 3 hab · Desde US$209,995 🏡', cmts:'24'} },
+  { label:'Amenidades', img:'images/slide/p_04.png', ig:{likes:'1,367', cap:'Tu fin de semana, sin salir de casa. Piscinas, parque y canchas. 🏊 #BocaChica', cmts:'45'} },
+  { label:'Urgencia', img:'images/slide/p_05.png', ig:{likes:'1,729', cap:'El momento de Boca Chica es ahora. Solo quedan 24 unidades disponibles. 📈', cmts:'63'} }
+];
+
+/* ============================================================
+   HISTORIAS / STORIES (1080×1920) · imágenes reales de 04 Historias.dc.html
+   ============================================================ */
+const STORIES=[
+  { label:'Marca', img:'images/slide/s_01.png' },
+  { label:'Escasez', img:'images/slide/s_02.png' },
+  { label:'Amenidades', img:'images/slide/s_03.png' },
+  { label:'2 Habitaciones', img:'images/slide/s_04.png' },
+  { label:'Contacto', img:'images/slide/s_05.png' }
+];
+
+/* ============================================================
+   ESTADO / NAV
+   ============================================================ */
+const state={view:'valla', cIndex:0, idx:0};
+const sideEl=document.getElementById('side');
+const vallaView=document.getElementById('vallaView');
+const phoneView=document.getElementById('phoneView');
+const screenEl=document.getElementById('screen');
+const swipehint=document.getElementById('swipehint');
+
+const SVG={
+  valla:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="12" rx="1.5"/><path d="M7 16v4M17 16v4"/></svg>',
+  carr:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="5" width="12" height="14" rx="2"/><path d="M3.5 8v8M20.5 8v8"/></svg>',
+  posts:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="M21 16l-5-5L5 21"/></svg>',
+  stories:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="3.4"/></svg>'
+};
+
+function buildSidebar(){
+  sideEl.innerHTML='';
+  const grp=document.createElement('div');grp.className='grp';grp.textContent='Campaña';sideEl.appendChild(grp);
+
+  function navBtn(view,icon,label){
+    const b=document.createElement('button');b.className='navitem'+(state.view===view?' active':'');
+    b.innerHTML='<span class="ic">'+icon+'</span>'+label;
+    b.onclick=()=>{setView(view);};
+    return b;
+  }
+  sideEl.appendChild(navBtn('valla',SVG.valla,'Valla'));
+
+  const carrBtn=navBtn('carruseles',SVG.carr,'Carruseles');
+  sideEl.appendChild(carrBtn);
+  const sub=document.createElement('div');sub.className='subnav'+(state.view==='carruseles'?' show':'');
+  CARRUSELES.forEach((c,i)=>{
+    const sb=document.createElement('button');sb.className='subitem'+(state.view==='carruseles'&&state.cIndex===i?' active':'');
+    sb.textContent=c.titulo;
+    sb.onclick=()=>{state.cIndex=i;state.idx=0;setView('carruseles');};
+    sub.appendChild(sb);
+  });
+  sideEl.appendChild(sub);
+
+  sideEl.appendChild(navBtn('posts',SVG.posts,'Publicaciones'));
+  sideEl.appendChild(navBtn('historias',SVG.stories,'Historias'));
+}
+
+function setView(view){
+  if(view!=='carruseles'||state.view!=='carruseles'){state.idx=0;}
+  state.view=view;
+  buildSidebar();
+  render();
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function fmtScale(){
+  // escala el teléfono para caber en alto disponible
+  const wrap=phoneView.getBoundingClientRect();
+  const phoneW=412, phoneH=858+40; // + hint
+  const availH=Math.max(wrap.height-24,300);
+  const availW=Math.max(wrap.width-24,260);
+  return Math.min(availH/phoneH, availW/phoneW, 1.05);
+}
+function applyPhoneScale(){
+  document.getElementById('phoneScale').style.transform='scale('+fmtScale()+')';
+}
+
+function igActionsHtml(){
+  return '<div class="igactions">'+
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/></svg>'+
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-11.7 7.8L3 21l1.7-6.2A8.4 8.4 0 1 1 21 11.5z"/></svg>'+
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>'+
+    '<span class="grow"></span>'+
+    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>'+
+  '</div>';
+}
+function igTabsHtml(){
+  return '<div class="igtabs">'+
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg>'+
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'+
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 8h18M9 3l3 5 3-5M10 12l5 3-5 3z"/></svg>'+
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5 5 0 0 0-7.1 0L12 6.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 20.5l8.8-8.8a5 5 0 0 0 0-7.1z"/></svg>'+
+    '<span class="av"><img src="'+LOGO_TC_V+'"></span>'+
+  '</div>';
+}
+
+function statusBarHtml(){
+  return '<div class="statusbar"><span>9:41</span><span class="right">'+
+    '<svg width="18" height="12" viewBox="0 0 18 12" fill="#0c0d0f"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>'+
+    '<svg width="17" height="12" viewBox="0 0 17 12" fill="#0c0d0f"><path d="M8.5 2.5c2.3 0 4.4.9 6 2.4l1.4-1.5A11 11 0 0 0 8.5.5 11 11 0 0 0 1.1 3.4L2.5 4.9A8.5 8.5 0 0 1 8.5 2.5z"/><path d="M8.5 6c1.2 0 2.3.5 3.1 1.3l1.4-1.5A6.5 6.5 0 0 0 8.5 4 6.5 6.5 0 0 0 4 5.8l1.4 1.5A4.4 4.4 0 0 1 8.5 6z"/><circle cx="8.5" cy="9.8" r="1.6"/></svg>'+
+    '<svg width="26" height="13" viewBox="0 0 26 13" fill="none"><rect x="1" y="1.5" width="21" height="10" rx="3" stroke="#0c0d0f" stroke-opacity=".4"/><rect x="3" y="3.5" width="16" height="6" rx="1.5" fill="#0c0d0f"/><rect x="23" y="4.5" width="2" height="4" rx="1" fill="#0c0d0f" fill-opacity=".4"/></svg>'+
+  '</span></div>';
+}
+function igHeadHtml(){
+  return '<div class="ighead">'+
+    '<span class="igavatar"><div><img src="'+LOGO_TC_V+'"></div></span>'+
+    '<div class="who"><b>tropicasa</b><span>Patrocinado · Boca Chica, R.D.</span></div>'+
+    '<span class="more">···</span>'+
+  '</div>';
+}
+
+/* ---- vista de PUBLICACIONES (feed vertical estilo IG, scroll) ---- */
+function renderPostsFeed(){
+  const sc=386/1080;
+  const postsHtml=POSTS.map(p=>{
+    const media='<div class="igcell"><img src="'+p.img+'" alt="Publicación" style="width:386px;height:482px;object-fit:cover;display:block;"></div>';
+    return '<div class="igpost">'+
+      igHeadHtml()+
+      media+
+      igActionsHtml()+
+      '<div class="igmeta">'+
+        '<div class="likes">'+p.ig.likes+' Me gusta</div>'+
+        '<div class="cap"><b>tropicasa</b> '+esc(p.ig.cap)+' <span class="muted">más</span></div>'+
+        '<div class="cmts">Ver los '+p.ig.cmts+' comentarios</div>'+
+        '<div class="time">Hace 3 horas</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  screenEl.innerHTML=statusBarHtml()+'<div class="igfeed" id="igFeed">'+postsHtml+'</div>'+igTabsHtml();
+  attachVScroll(document.getElementById('igFeed'));
+  swipehint.textContent='Desplázate hacia abajo con el mouse ↓';
+  swipehint.style.display='block';
+}
+
+/* ---- vista de CARRUSELES (Instagram feed horizontal) ---- */
+function renderFeed(){
+  let cells, count, meta;
+  const c=CARRUSELES[state.cIndex];
+  cells=c.slides; meta=c.ig;
+  count=cells.length;
+  if(state.idx>=count)state.idx=count-1; if(state.idx<0)state.idx=0;
+  const sc=386/1080;
+  const cellsHtml=cells.map(src=>'<div class="igcell"><img src="'+src+'" alt="Slide" style="width:386px;height:482px;object-fit:cover;display:block;"></div>').join('');
+  const dots=Array.from({length:count},(_,i)=>'<span class="d'+(i===state.idx?' on':'')+'"></span>').join('');
+
+  screenEl.innerHTML=
+    statusBarHtml()+
+    igHeadHtml()+
+    '<div class="igmedia" id="feedMedia">'+
+      '<div class="igtrack" id="feedTrack">'+cellsHtml+'</div>'+
+      (count>1?'<div class="igcount" id="feedCount">'+(state.idx+1)+'/'+count+'</div><span class="igmulti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="8" y="3" width="13" height="13" rx="2.5"/><path d="M3 8v11a2 2 0 0 0 2 2h11"/></svg></span>':'')+
+    '</div>'+
+    igActionsHtml()+
+    (count>1?'<div class="igdots" id="feedDots">'+dots+'</div>':'')+
+    '<div class="igmeta">'+
+      '<div class="likes">'+meta.likes+' Me gusta</div>'+
+      '<div class="cap"><b>tropicasa</b> '+esc(meta.cap)+' <span class="muted">más</span></div>'+
+      '<div class="cmts">Ver los '+meta.cmts+' comentarios</div>'+
+      '<div class="time">Hace 3 horas</div>'+
+    '</div>'+
+    igTabsHtml();
+
+  const track=document.getElementById('feedTrack');
+  const media=document.getElementById('feedMedia');
+  const cellW=386;
+  setTrack(track,state.idx,cellW,false);
+  attachSwipe(media,track,cellW,()=>count,()=>state.idx,(i)=>{state.idx=i;
+    const cnt=document.getElementById('feedCount'); if(cnt)cnt.textContent=(i+1)+'/'+count;
+    const dd=document.getElementById('feedDots'); if(dd)[...dd.children].forEach((d,k)=>d.classList.toggle('on',k===i));
+  });
+  swipehint.textContent='Arrastra con el mouse ← → para deslizar';
+  swipehint.style.display='block';
+}
+
+/* ---- vista de HISTORIAS (Instagram stories) ---- */
+function renderStories(){
+  const count=STORIES.length;
+  if(state.idx>=count)state.idx=count-1; if(state.idx<0)state.idx=0;
+  const sc=386/1080;
+  const cellsHtml=STORIES.map(s=>'<div class="storycell"><img src="'+s.img+'" alt="Historia" style="width:386px;height:auto;display:block;"></div>').join('');
+  const bars=Array.from({length:count},(_,i)=>'<div class="seg'+(i<state.idx?' done':'')+(i===state.idx?' cur':'')+'"><i></i></div>').join('');
+
+  screenEl.innerHTML=
+    '<div class="storyscreen" id="storyScreen">'+
+      '<div class="storytrack" id="storyTrack">'+cellsHtml+'</div>'+
+      '<div class="storybars" id="storyBars">'+bars+'</div>'+
+      '<div class="storyhd"><span class="av"><img src="'+LOGO_TC_V+'"></span><b>tropicasa</b><span>2 h</span><span class="x">×</span></div>'+
+      '<div class="storyfoot"><div class="box">Enviar mensaje</div>'+
+        '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1z"/></svg>'+
+        '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>'+
+      '</div>'+
+    '</div>';
+
+  const track=document.getElementById('storyTrack');
+  const scr=document.getElementById('storyScreen');
+  const cellW=386;
+  setTrack(track,state.idx,cellW,false);
+  attachSwipe(scr,track,cellW,()=>count,()=>state.idx,(i)=>{state.idx=i;
+    const bb=document.getElementById('storyBars');
+    if(bb)[...bb.children].forEach((seg,k)=>{seg.classList.toggle('done',k<i);seg.classList.toggle('cur',k===i);});
+  });
+  swipehint.style.display='block';
+}
+
+/* ---- VALLA ---- */
+function renderValla(){
+  vallaView.innerHTML=
+    '<div class="vhead"><h2>Valla publicitaria · Vistana Costa Blanca</h2><p>Diseño aprobado y fotomontaje sobre estructura. (Producción de la valla fuera de este sistema.)</p></div>'+
+    '<div class="vcard"><div class="vlabel">Diseño</div><img src="'+IMG+'CB_VALLA_DISENO.png" alt="Diseño de la valla"></div>'+
+    '<div class="vcard"><div class="vlabel">Fotomontaje · estructura</div><img src="'+IMG+'CB_VALLA_MONTAJE.png" alt="Fotomontaje de la valla"></div>';
+}
+
+function render(){
+  const isValla=state.view==='valla';
+  vallaView.style.display=isValla?'flex':'none';
+  phoneView.style.display=isValla?'none':'flex';
+  if(isValla){renderValla();return;}
+  if(state.view==='historias'){renderStories();}
+  else if(state.view==='posts'){renderPostsFeed();}
+  else{renderFeed();}
+  applyPhoneScale();
+}
+
+/* ============================================================
+   SWIPE (mouse + touch)
+   ============================================================ */
+function attachVScroll(area){
+  let dragging=false, startY=0, startTop=0;
+  area.addEventListener('pointerdown',e=>{
+    if(e.button!==0)return;
+    dragging=true; startY=e.clientY; startTop=area.scrollTop;
+    area.classList.add('dragging'); area.setPointerCapture&&area.setPointerCapture(e.pointerId);
+  });
+  area.addEventListener('pointermove',e=>{ if(dragging)area.scrollTop=startTop-(e.clientY-startY); });
+  function end(){dragging=false;area.classList.remove('dragging');}
+  area.addEventListener('pointerup',end);
+  area.addEventListener('pointercancel',end);
+  area.addEventListener('dragstart',e=>e.preventDefault());
+}
+function setTrack(track,idx,cellW,withTrans){
+  track.style.transition=withTrans?'transform .3s cubic-bezier(.22,.61,.36,1)':'none';
+  track.style.transform='translateX('+(-idx*cellW)+'px)';
+}
+function attachSwipe(area,track,cellW,getCount,getIdx,onChange){
+  let dragging=false, startX=0, base=0, dx=0, pointerId=null;
+  function down(e){
+    dragging=true; startX=e.clientX; base=-getIdx()*cellW; dx=0; pointerId=e.pointerId;
+    area.classList.add('dragging'); track.style.transition='none';
+    area.setPointerCapture&&area.setPointerCapture(e.pointerId);
+  }
+  function move(e){
+    if(!dragging)return;
+    dx=e.clientX-startX;
+    let t=base+dx;
+    const max=0, min=-(getCount()-1)*cellW;
+    if(t>max)t=max+(t-max)*0.35;
+    if(t<min)t=min+(t-min)*0.35;
+    track.style.transform='translateX('+t+'px)';
+  }
+  function up(){
+    if(!dragging)return; dragging=false; area.classList.remove('dragging');
+    let idx=getIdx();
+    if(dx<-46&&idx<getCount()-1)idx++;
+    else if(dx>46&&idx>0)idx--;
+    setTrack(track,idx,cellW,true);
+    onChange(idx);
+  }
+  area.addEventListener('pointerdown',down);
+  area.addEventListener('pointermove',move);
+  area.addEventListener('pointerup',up);
+  area.addEventListener('pointercancel',up);
+  area.addEventListener('pointerleave',()=>{if(dragging)up();});
+  area.addEventListener('dragstart',e=>e.preventDefault());
+}
+
+document.addEventListener('keydown',e=>{
+  if(state.view==='valla'||state.view==='posts')return;
+  const count=state.view==='historias'?STORIES.length:CARRUSELES[state.cIndex].slides.length;
+  if(e.key==='ArrowLeft'&&state.idx>0){state.idx--;render();}
+  else if(e.key==='ArrowRight'&&state.idx<count-1){state.idx++;render();}
+});
+window.addEventListener('resize',()=>{if(state.view!=='valla')applyPhoneScale();});
+
+buildSidebar();
+render();
+</script>
+</body>
+</html>
